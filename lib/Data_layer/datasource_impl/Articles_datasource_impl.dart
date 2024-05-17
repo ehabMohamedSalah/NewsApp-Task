@@ -20,7 +20,7 @@ class ArticlesDataSourceImpl extends ArticlesDataSource{
         "apiKey":Constant.apiKey,
         "country": Constant.country,
         "page":Constant.page,
-        "category": categoryId,
+        "category": categoryId!="ALL"?categoryId:null,
       });
       var ArticlesResponse=NewsResponseModel.fromJson(response.data);
       return left(ArticlesResponse);

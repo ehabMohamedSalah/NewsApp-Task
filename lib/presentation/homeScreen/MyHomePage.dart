@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:rootco_task/Domain_layer/entity/ArticleEntity.dart';
 import 'package:rootco_task/presentation/homeScreen/widget/Article_Widget.dart';
 import 'package:rootco_task/presentation/homeScreen/widget/TabBarWidget.dart';
-
 import '../../core/di/di.dart';
 import 'home_ViewModel/home_ViewModel_cubit.dart';
 
@@ -18,8 +16,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<String>Categorys=["All","Business","Health",'Science','Technology'];
-  int selectedCategory=2;
+  List<String>Categorys=["ALL","Business","Health",'Science','Technology'];
+  int selectedCategory=0 ;
   @override
   void initState() {
     // TODO: implement initState
@@ -49,8 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             onTap: (index){
                               setState(() {
                                 selectedCategory=index;
-                                getIt<HomeViewModelCubit>().getArticle(Categorys[selectedCategory]);
                               });
+                              HomeViewModelCubit.get(context).getArticle(Categorys[selectedCategory]);
                             },
                             tabs: Categorys.map((category) =>  CategoryWidget(
                               category:category,
