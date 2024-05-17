@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:rootco_task/presentation/home/MyHomePage.dart';
+import 'package:rootco_task/core/di/di.dart';
+ import 'package:rootco_task/presentation/homeScreen/MyHomePage.dart';
+import 'package:rootco_task/presentation/homeScreen/home_ViewModel/home_ViewModel_cubit.dart';
 
 import 'config/theme/AppTheme.dart';
+import 'core/api/api_manager.dart';
+import 'core/myobserver.dart';
 
 
 
 
 void main() {
-  runApp( MyApp());
+  Bloc.observer = MyBlocObserver();
+  configureDependencies();
+
+  ApiManager.init();
+  runApp( BlocProvider(
+    create:(context) => getIt<HomeViewModelCubit>() ,
+      child: MyApp()));
 }
 
 

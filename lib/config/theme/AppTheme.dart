@@ -33,6 +33,7 @@ class AppTheme{
               color: Colors.black
           ),
           labelMedium: TextStyle(
+            overflow: TextOverflow.ellipsis,
               color: Colors.black,
               fontWeight: FontWeight.bold,
               fontSize: 17.sp

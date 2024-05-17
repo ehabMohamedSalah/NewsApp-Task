@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
+import '../constant.dart';
+
 
 @singleton
 class ApiManager{
@@ -8,7 +10,7 @@ class ApiManager{
   static init() {
     dio = Dio(
       BaseOptions(
-         // baseUrl: Constant.baseUrl,
+          baseUrl: Constant.baseUrl,
           validateStatus: (status){
             if((status!>=200 && status<300)||status==409){
               return true;
