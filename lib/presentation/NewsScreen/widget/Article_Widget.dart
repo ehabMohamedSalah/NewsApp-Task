@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rootco_task/core/utils/routes_manager.dart';
-import 'package:rootco_task/presentation/homeScreen/widget/resuable_component/article_resuable.dart';
 
 import '../../../Domain_layer/entity/ArticleEntity.dart';
+import '../../resuable_component/article_resuable.dart';
 
 class Article extends StatelessWidget {
   ArticleEntity articleEntity;

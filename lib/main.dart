@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rootco_task/core/di/di.dart';
-import 'package:rootco_task/presentation/News_Details/NewsDetailsScreen.dart';
- import 'package:rootco_task/presentation/homeScreen/MyHomePage.dart';
-import 'package:rootco_task/presentation/homeScreen/home_ViewModel/home_ViewModel_cubit.dart';
+import 'package:rootco_task/presentation/NewsScreen/MyHomePage.dart';
+import 'package:rootco_task/presentation/NewsScreen/News_ViewModel/home_ViewModel_cubit.dart';
+ import 'package:rootco_task/presentation/News_Details/NewsDetailsScreen.dart';
+
 
 import 'config/theme/AppTheme.dart';
 import 'core/api/api_manager.dart';
@@ -20,7 +21,7 @@ void main() {
 
   ApiManager.init();
   runApp( BlocProvider(
-    create:(context) => getIt<HomeViewModelCubit>() ,
+    create:(context) => getIt<NewsViewModelCubit>() ,
       child: MyApp()));
 }
 

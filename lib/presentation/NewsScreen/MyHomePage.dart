@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:rootco_task/presentation/homeScreen/widget/Article_Widget.dart';
-import 'package:rootco_task/presentation/homeScreen/widget/TabBarWidget.dart';
+import 'package:rootco_task/presentation/NewsScreen/widget/Article_Widget.dart';
+import 'package:rootco_task/presentation/NewsScreen/widget/TabBarWidget.dart';
+
 import '../../core/di/di.dart';
-import 'home_ViewModel/home_ViewModel_cubit.dart';
+import 'News_ViewModel/home_ViewModel_cubit.dart';
 
 class MyHomePage extends StatefulWidget {
 
@@ -23,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<HomeViewModelCubit>().getArticle(Categorys[selectedCategory]);
+      context.read<NewsViewModelCubit>().getArticle(Categorys[selectedCategory]);
     });
 
   }
@@ -48,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               setState(() {
                                 selectedCategory=index;
                               });
-                              HomeViewModelCubit.get(context).getArticle(Categorys[selectedCategory]);
+                              NewsViewModelCubit.get(context).getArticle(Categorys[selectedCategory]);
                             },
                             tabs: Categorys.map((category) =>  CategoryWidget(
                               category:category,
@@ -57,25 +58,25 @@ class _MyHomePageState extends State<MyHomePage> {
                             )).toList()  ) ])),
                            Expanded(
                              child:
-                                 BlocConsumer<HomeViewModelCubit,HomeViewModelState>(
+                                 BlocConsumer<NewsViewModelCubit,NewsViewModelState>(
                                    listenWhen: (previous, current) {
-                                     if(current is HomeViewModelSuccess|| current is HomeViewModelError||current is HomeViewModelLoading){
+                                     if(current is NewsViewModelSuccess|| current is NewsViewModelError||current is HomeViewModelLoading){
                                        return true;
                                      }return false;
                                    },
                                    listener: (context, state){
-                                     if(state is HomeViewModelSuccess){
+                                     if(state is NewsViewModelSuccess){
                                        setState(() {
-                                         getIt<HomeViewModelCubit>().getArticle(Categorys[selectedCategory]);
+                                         getIt<NewsViewModelCubit>().getArticle(Categorys[selectedCategory]);
 
                                        });
                                      }
                                    },
                                    builder: (context, state) {
-                                      if(state is HomeViewModelError){
+                                      if(state is NewsViewModelError){
                                         return Center(child: Text(state.errorMessage??""),);
                                       }
-                                     if(state is HomeViewModelSuccess){
+                                     if(state is NewsViewModelSuccess){
                                        return ListView.separated(
                                          itemCount: state.articles.length,
                                          separatorBuilder: (context, index) => SizedBox(height: 10.h,),

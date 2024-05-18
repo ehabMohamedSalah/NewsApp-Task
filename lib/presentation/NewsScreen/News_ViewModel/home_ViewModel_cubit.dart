@@ -11,18 +11,18 @@ import '../../../Domain_layer/usecase/Articles_usecase.dart';
 part 'home_ViewModel_state.dart';
 
 @injectable
-class HomeViewModelCubit extends Cubit<HomeViewModelState> {
+class NewsViewModelCubit extends Cubit<NewsViewModelState> {
   ArticlesUsecase articlesUsecase;
   @factoryMethod
-  HomeViewModelCubit(this.articlesUsecase) : super(HomeViewModelInitial());
-  static HomeViewModelCubit get(BuildContext context)=>BlocProvider.of(context);
+  NewsViewModelCubit(this.articlesUsecase) : super(NewsViewModelInitial());
+  static NewsViewModelCubit get(BuildContext context)=>BlocProvider.of(context);
 
 
   getArticle(String categoryID)async{
     emit(HomeViewModelLoading());
    var response=await articlesUsecase.call(categoryID);
    response.fold(
-           (articles) => emit(HomeViewModelSuccess(articles)),
-           (error) => emit(HomeViewModelError(error)));
+           (articles) => emit(NewsViewModelSuccess(articles)),
+           (error) => emit(NewsViewModelError(error)));
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Domain_layer/entity/ArticleEntity.dart';
-import '../homeScreen/widget/resuable_component/article_resuable.dart';
+ import '../resuable_component/article_resuable.dart';
 
 class NewsDetailsScreen extends StatelessWidget {
 
