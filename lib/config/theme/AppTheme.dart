@@ -18,10 +18,15 @@ class AppTheme{
       colorScheme: ColorScheme.fromSeed(
           seedColor: ColorManager.primaryColor,
           primary: ColorManager.primaryColor,
-        secondary: ColorManager.secondaryColor,
+        secondary: ColorManager.headlineColor,
       ),
 
       textTheme: TextTheme(
+        bodyLarge:TextStyle(
+            fontSize: 24.sp,
+            fontWeight: FontWeight.w600,
+            color: Colors.black
+        ),
           headlineLarge: TextStyle(
               fontSize: 15.sp,
               color: Colors.white,
@@ -42,7 +47,12 @@ class AppTheme{
               fontWeight: FontWeight.w400,
               fontSize: 20.sp,
               color: Colors.white
-          )
+          ),
+        bodySmall: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 20.sp,
+            color: ColorManager.headlineColor
+        )
       )
   );
 }
