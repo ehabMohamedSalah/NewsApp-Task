@@ -143,13 +143,22 @@ class _SignInState extends State<SignIn> {
 
                   } ,),
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  child: TextButtom(withGoogle: true,color: Colors.red,title:StringsManger.LoginWithGoogle ,onPressed:()
-                  {
-                    signInWithGoogle();
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButtom(withGoogle: true,color: Colors.red,title:StringsManger.LoginWithGoogle ,onPressed:()
+                    {
+                      signInWithGoogle();
 
-                  } ,),
+                    } ,),
+                    SizedBox(width: 10.w,),
+                    TextButtom(withPhone: true,color: Colors.black87,title:StringsManger.PhoneVerf ,onPressed:()
+                    {
+                      Navigator.pushNamed(context, RoutesManager.PhoneAuth);
+
+                    } ,),
+
+                  ],
                 ),
 
                 SizedBox(height:20.h),

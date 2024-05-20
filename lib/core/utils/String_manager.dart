@@ -19,7 +19,11 @@ class StringsManger{
 
   static const String ForgotPassword="Forgot password";
   static const String Login="Login";
-  static const String LoginWithGoogle="Login With Google";
+  static const String LoginWithGoogle=" Google";
+  static const String PhoneVerf=" Phone ";
+  static const String EnterYourPhone="Enter Your Phone Number";
+
+
   static const String SignUp="Sign up";
   static const String FullName="Full Name";
   static const String enterYourFullName="enter your full name";
