@@ -1,13 +1,14 @@
- import 'package:flutter/cupertino.dart';
+ import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../core/constant.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+ import '../../../core/constant.dart';
 import '../../../core/utils/String_manager.dart';
 import '../../../core/utils/assets_manager.dart';
-import '../../../core/utils/color_manager.dart';
-import '../../../core/utils/routes_manager.dart';
+ import '../../../core/utils/routes_manager.dart';
 import '../resuable_component/text_buttom.dart';
 import '../resuable_component/CustomFormField.dart';
 
@@ -24,6 +25,7 @@ class _SignInState extends State<SignIn> {
   late TextEditingController passwordController;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+
   @override
   void initState() {
     // TODO: implement initState
@@ -31,7 +33,28 @@ class _SignInState extends State<SignIn> {
     emailContrller=TextEditingController();
     passwordController=TextEditingController();
   }
-   @override
+  Future signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    if(googleUser==null){ //law al kema b null akhrog mn all func 3shan law 3mlt dismess
+      return;
+    }
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    await FirebaseAuth.instance.signInWithCredential(credential);
+    Navigator.pushNamedAndRemoveUntil(context, RoutesManager.News,(route) => false,);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -60,8 +83,7 @@ class _SignInState extends State<SignIn> {
                       return StringsManger.notValidEmail;
                     }
                   },),
-
-                CutomFormField( maxLength: 11,title: StringsManger.password,controller: passwordController ,hintText: StringsManger.enteryourpassword,keyboard:TextInputType.visiblePassword ,obscureText: true,
+                CutomFormField( maxLength: 12,title: StringsManger.password,controller: passwordController ,hintText: StringsManger.enteryourpassword,keyboard:TextInputType.visiblePassword ,obscureText: true,
                   validator: (value){
                     if((value?.length??0) < 7){
                       return StringsManger.Notvalidpass;
@@ -73,18 +95,60 @@ class _SignInState extends State<SignIn> {
                 SizedBox(height:30.h),
                 SizedBox(
                   width: double.infinity,
-                  child: TextButtom(color: Colors.orange,title:StringsManger.Login ,onPressed:(){
-                    if(formKey.currentState?.validate()!=false){
-                      Navigator.pushNamed(context, RoutesManager.News);
+                  child: TextButtom(color: Colors.orange,title:StringsManger.Login ,onPressed:()async{
+                    if(formKey.currentState!.validate()){
+                      try {
+                        final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                            email: emailContrller.text,
+                            password: passwordController.text
+                        );
+                    if(credential.user!.emailVerified){
+                      Navigator.pushNamedAndRemoveUntil(context, RoutesManager.News,(route) => false,);
+                    }else{
+                      AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.error,
+                          animType: AnimType.rightSlide,
+                          title: 'Error',
+                          desc: 'Please go to your email inbox and click on the verification link to activate your account',
+                      );
+                          }
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'user-not-found') {
+                          print('No user found for that email.');
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.error,
+                            animType: AnimType.rightSlide,
+                            title: 'Error',
+                            desc: 'No user found for that email',
+
+                          ).show();
+                        } else if (e.code == 'wrong-password') {
+                          print('Wrong password provided for that user.');
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.error,
+                            animType: AnimType.rightSlide,
+                            title: 'Error',
+                            desc: 'Wrong password provided for that user',
+
+                          ).show();
+                        }
+                      }
+                    }else{
+                      print("Not Valid");
                     }
+
+
                   } ,),
                 ),
                 SizedBox(
                   width: double.infinity,
-                  child: TextButtom(withGoogle: true,color: Colors.red,title:StringsManger.LoginWithGoogle ,onPressed:(){
-                    if(formKey.currentState?.validate()!=false){
-                      Navigator.pushNamed(context, RoutesManager.News);
-                    }
+                  child: TextButtom(withGoogle: true,color: Colors.red,title:StringsManger.LoginWithGoogle ,onPressed:()
+                  {
+                    signInWithGoogle();
+
                   } ,),
                 ),
 

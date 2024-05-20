@@ -10,7 +10,8 @@ class CutomFormField extends StatelessWidget {
   String? Function(String?)? validator;
   int maxLength;
   bool obscureText;
-  CutomFormField({super.key,required this.title,required this.hintText,required this.keyboard,required this.controller,required this.validator,required this.maxLength,  this.obscureText=false});
+  bool isPhone;
+  CutomFormField({super.key,required this.title,required this.hintText,required this.keyboard,required this.controller,required this.validator,required this.maxLength,  this.obscureText=false,this.isPhone=false});
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,7 @@ class CutomFormField extends StatelessWidget {
             hintText:hintText ,
             filled: true,
             fillColor: Colors.white,
+            suffixIcon: isPhone?Icon(Icons.phone):null,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15.sp),
             ),

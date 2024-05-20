@@ -1,22 +1,24 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rootco_task/presentation/NewsScreen/widget/Article_Widget.dart';
 import 'package:rootco_task/presentation/NewsScreen/widget/TabBarWidget.dart';
-
 import '../../core/di/di.dart';
+import '../../core/utils/routes_manager.dart';
 import 'News_ViewModel/home_ViewModel_cubit.dart';
 
-class MyHomePage extends StatefulWidget {
+class NewsPage extends StatefulWidget {
 
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<NewsPage> createState() => _NewsPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _NewsPageState extends State<NewsPage> {
   List<String>Categorys=["ALL","Business","Health",'Science','Technology'];
   int selectedCategory=0 ;
   @override
@@ -33,6 +35,14 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
           title: Text("News",style: Theme.of(context).textTheme.headlineMedium,),
+          actions: [
+            IconButton(onPressed: ( ) async{
+              GoogleSignIn googleSignIn=GoogleSignIn();
+              googleSignIn.disconnect();
+              await FirebaseAuth.instance.signOut();
+                Navigator.pushNamedAndRemoveUntil(context, RoutesManager.SignInroute, (route) => false);
+            }, icon: Icon(Icons.exit_to_app))
+          ],
         ),
         body:
             Padding(
@@ -92,7 +102,5 @@ class _MyHomePageState extends State<MyHomePage> {
 
                            ),
           );
-
-
   }
 }

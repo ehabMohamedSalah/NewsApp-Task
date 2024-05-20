@@ -2,7 +2,10 @@ class StringsManger{
   static const String welcome="Welcome";
   static const String pleaseSign="Please sign in with your email";
   static const String email="Email";
+  static const String Phone="Phone";
   static const String enterYourEmail="Enter your Email";
+  static const String enterYourPhone="Enter your Phone Number";
+
   static const String password='Password';
   static const String enteryourpassword="Enter your Password";
   static const String forgetpassword="Forget Password";
@@ -12,6 +15,8 @@ class StringsManger{
 
   static const String notValidEmail="Dont't valid account";
   static const String Notvalidpass="must be more than 8 characters";
+  static const String novalidPhone="Phone Number must equal be 11 characters";
+
   static const String ForgotPassword="Forgot password";
   static const String Login="Login";
   static const String LoginWithGoogle="Login With Google";

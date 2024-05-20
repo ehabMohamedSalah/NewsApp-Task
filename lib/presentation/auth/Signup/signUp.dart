@@ -1,4 +1,6 @@
 
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -92,10 +94,46 @@ class _SignUpState extends State<SignUp> {
                  SizedBox(
                     width: double.infinity,
                        child:  TextButtom(color: Colors.orange,
-                      title:StringsManger.SignUp ,onPressed:(){
-                      if(formKey.currentState?.validate()??false) {
-                        Navigator.pushNamed(context, RoutesManager.News);
-                      }}
+                      title:StringsManger.SignUp ,onPressed:()async{
+                             if(formKey.currentState!.validate()) {
+                               try {
+                                 final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                                   email: emailContrller.text,
+                                   password: passwordController.text,
+                                 );
+                                 FirebaseAuth.instance.currentUser!.sendEmailVerification();
+                                 Navigator.pushReplacementNamed(context, RoutesManager.SignInroute );
+                               } on FirebaseAuthException catch (e) {
+                                 if (e.code == 'weak-password') {
+                                   print('The password provided is too weak.');
+                                   AwesomeDialog(
+                                     context: context,
+                                     dialogType: DialogType.error,
+                                     animType: AnimType.rightSlide,
+                                     title: 'Error',
+                                     desc: 'The password provided is too weak.',
+
+                                   ).show();
+                                 } else if (e.code == 'email-already-in-use') {
+                                   print('The account already exists for that email.');
+                                   AwesomeDialog(
+                                     context: context,
+                                     dialogType: DialogType.error,
+                                     animType: AnimType.rightSlide,
+                                     title: 'Error',
+                                     desc: 'The account already exists for that email.',
+
+                                   ).show();
+
+                                 }
+                               } catch (e) {
+                                 print(e);
+                               }
+                             }else{
+                               print("No valid");
+                             }
+
+                      }
 
                  ),
 
