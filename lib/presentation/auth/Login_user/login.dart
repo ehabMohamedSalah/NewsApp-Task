@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
  import '../../../core/constant.dart';
+import '../../../core/resuable_component/dialog.dart';
 import '../../../core/utils/String_manager.dart';
 import '../../../core/utils/assets_manager.dart';
  import '../../../core/utils/routes_manager.dart';
@@ -97,12 +98,15 @@ class _SignInState extends State<SignIn> {
                   width: double.infinity,
                   child: TextButtom(color: Colors.orange,title:StringsManger.Login ,onPressed:()async{
                     if(formKey.currentState!.validate()){
+                      DialogUtils.showLoadingDialog(context);
                       try {
                         final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
                             email: emailContrller.text,
                             password: passwordController.text
                         );
-                    if(credential.user!.emailVerified){
+                        DialogUtils.hideLoading(context);
+
+                        if(credential.user!.emailVerified){
                       Navigator.pushNamedAndRemoveUntil(context, RoutesManager.News,(route) => false,);
                     }else{
                       AwesomeDialog(
@@ -114,6 +118,8 @@ class _SignInState extends State<SignIn> {
                       );
                           }
                       } on FirebaseAuthException catch (e) {
+                        DialogUtils.hideLoading(context);
+
                         if (e.code == 'user-not-found') {
                           print('No user found for that email.');
                           AwesomeDialog(

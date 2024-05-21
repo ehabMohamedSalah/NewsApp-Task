@@ -37,7 +37,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
                SizedBox(height: 100.h,),
 
               Padding(
-                padding:   REdgeInsets.symmetric(horizontal: 25),
+                padding:   REdgeInsets.symmetric(horizontal: 25.sp),
                 child: CutomFormField(
                   validator: (value){},
                   maxLength: 15,

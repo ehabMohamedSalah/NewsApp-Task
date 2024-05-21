@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rootco_task/core/utils/color_manager.dart';
 
 import '../../../core/constant.dart';
+import '../../../core/resuable_component/dialog.dart';
 import '../../../core/utils/String_manager.dart';
 import '../../../core/utils/assets_manager.dart';
 import '../../../core/utils/routes_manager.dart';
@@ -126,17 +127,22 @@ class _SignUpState extends State<SignUp> {
                     title: StringsManger.SignUp,
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
+                        DialogUtils.showLoadingDialog(context);
+
                         try {
                           final credential = await FirebaseAuth.instance
                               .createUserWithEmailAndPassword(
                             email: emailContrller.text,
                             password: passwordController.text,
                           );
+                          DialogUtils.hideLoading(context);
+
                           FirebaseAuth.instance.currentUser!
                               .sendEmailVerification();
                           Navigator.pushReplacementNamed(
                               context, RoutesManager.SignInroute);
                         } on FirebaseAuthException catch (e) {
+                          DialogUtils.hideLoading(context);
                           if (e.code == 'weak-password') {
                             print('The password provided is too weak.');
                             AwesomeDialog(

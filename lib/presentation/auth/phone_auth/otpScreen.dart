@@ -30,7 +30,7 @@ class _OTPScreenState extends State<OTPScreen> {
         centerTitle: true,
       ),
       body: Padding(
-        padding:  REdgeInsets.all(16.0),
+        padding:  REdgeInsets.all(16.0.sp),
         child: SingleChildScrollView(
           child: Column(
           
